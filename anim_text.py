@@ -1,28 +1,24 @@
-from PIL import Image, ImageDraw, ImageSequence
-import io
+from PIL import Image, ImageDraw, ImageFont
 
-im = Image.open('test.gif')
+def create_image_with_text(size, text):
+    img = Image.new('RGB', (600, 50), "yellow")
+    draw = ImageDraw.Draw(img)
+    draw.text((size[0], size[1]), text, font = fnt, fill="black")
+    return img
 
-# A list of the frames to be outputted
 frames = []
-# Loop over each frame in the animated image
-for frame in ImageSequence.Iterator(im):
-    # Draw the text on the frame
-    d = ImageDraw.Draw(frame)
-    d.text((10,100), "Hello World")
-    del d
 
-    # However, 'frame' is still the animated image with many frames
-    # It has simply been seeked to a later frame
-    # For our list of frames, we only want the current frame
-
-    # Saving the image without 'save_all' will turn it into a single frame image, and we can then re-open it
-    # To be efficient, we will save it to a stream, rather than to file
-    b = io.BytesIO()
-    frame.save(b, format="GIF")
-    frame = Image.open(b)
-
-    # Then append the single frame image to a list of frames
-    frames.append(frame)
-# Save the frames as a new image
-frames[0].save('out.gif', save_all=True, append_images=frames[1:])
+def roll(text):
+    for i in range(len(text)+1):
+        new_frame = create_image_with_text((0,0), text[:i])
+        frames.append(new_frame)
+# <<< ========== Customize font and text below ============== >>>>
+fnt = ImageFont.truetype("arial", 36)
+all_text = """ Pythonprogramming
+Brought you this code
+This text was made
+with PIL and Python""".splitlines()
+[roll(text) for text in all_text]
+# <<< ======================================================== >>>
+frames[0].save('banner1.gif', format='GIF',
+               append_images=frames[1:], save_all=True, duration=80, loop=0)
