@@ -1,6 +1,5 @@
 import os
 from math import ceil
-
 import cv2
 import numpy as np
 
