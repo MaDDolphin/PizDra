@@ -4,10 +4,9 @@ c = 0
 inc = 10
 
 
-def create_image_with_text(size, text):
+def create_image_with_text(text):
     global c, inc
     img = Image.open("1.jpg")
-    w, h = img.size
     draw = ImageDraw.Draw(img)
     draw.text((0, 0), text, font=fnt, fill='#ffffff')
     c += inc
@@ -21,7 +20,7 @@ frames = []
 def roll(text):
     global c
     for i in range(len(text) + 1):
-        new_frame = create_image_with_text((0, 0), text[:i])
+        new_frame = create_image_with_text(text[:i])
         frames.append(new_frame)
     c = 0
 
@@ -34,8 +33,7 @@ all_text = """ С добрым утром, улыбайся,
 Солнце пусть тебя согреет,
 Кофеек пускай взбодрит,
 Сердце пусть от счастья млеет,
-А в душе лишь мир царит!
-    """.splitlines()
+А в душе лишь мир царит!""".splitlines()
 [roll(text) for text in all_text]
 
 # Save into a GIF file that loops forever
