@@ -53,7 +53,7 @@ def roll(text, fnt, color):
         frames.append(new_frame)
 
 
-def main():
+def gif_text():
     color = get_color()
     text = """ С добрым утром, улыбайся,
     Пусть удачным будет день!
@@ -74,5 +74,4 @@ def main():
                    append_images=frames[1:], save_all=True, duration=80, loop=0)
 
 
-if __name__ == "__main__":
-    main()
+gif_text()
