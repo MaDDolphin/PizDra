@@ -6,6 +6,7 @@ frames = []
 c = 0
 inc = 10
 
+
 def get_color():
     colors = [
         ['#ccd5ae', '#fefae0'],
@@ -29,16 +30,6 @@ def get_color():
     return colors[cn]
 
 
-'''
-def create_image_with_text(size, text, fnt, color):
-    global c, inc
-    img = Image.open("123.png")
-    w,h = img.size
-    draw = ImageDraw.Draw(img)
-    draw.text((w // 5, h // 2), text, font = fnt, fill=color[1])
-    c += inc
-    return img
-'''
 def create_image_with_text(size, text, fnt, color):
     img = Image.new('RGB', (600, 50), color[0])
     draw = ImageDraw.Draw(img)

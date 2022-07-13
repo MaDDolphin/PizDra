@@ -1,23 +1,46 @@
-from pydub import AudioSegment
+import os
+from math import ceil
+import cv2
+import numpy as np
 
-#importing file from location by giving its path
-sound = AudioSegment.from_mp3("https://cdn.codespeedy.com/content/audio/file.mp3")
 
-#Selecting Portion we want to cut
-StrtMin = 0
-StrtSec = 8
+def main():
+    print(123)
+    dst = "./photos/"  # Images destination
+    images = os.listdir(dst)  # Get their names in a list
+    length = len(images)
 
-EndMin = 0
-EndSec = 22
+    result = np.zeros((400, 400, 3), np.uint8)  # Image window of size (360, 360)
+    i = 1
 
-# Time to milliseconds conversion
-StrtTime = StrtMin*60*1000+StrtSec*1000
-EndTime = StrtMin*60*1000+EndSec*1000
+    a = 1.0  # alpha
+    b = 0.0  # beta
+    img = cv2.imread(dst + images[i])
+    img = cv2.resize(img, (400, 400))
 
-# Opening file and extracting portion of it
-extract = sound[StrtTime:EndTime]
+    # Slide Show Loop
+    while True:
 
-# Saving file in required location
-extract.export("https://cdn.codespeedy.com/content/audio/new/portion.mp3", format="mp3")
+        if ceil(a) == 0:
+            a = 1.0
+            b = 0.0
+            i = (i + 1) % length  # Getting new image from directory
+            img = cv2.imread(dst + images[i])
+            img = cv2.resize(img, (400, 400))
 
-# new file portion.mp3 is saved at required location
+        a -= 0.01
+        b += 0.01
+
+        # Image Transition from one to another
+        result = cv2.addWeighted(result, a, img, b, 0)
+        cv2.imshow("Slide Show", result)
+
+        key = cv2.waitKey(1) & 0xff
+        if key == ord('q'):
+            break
+
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()
