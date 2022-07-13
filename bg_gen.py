@@ -1,4 +1,4 @@
-'''import os
+import os
 from math import ceil
 import cv2
 import numpy as np
@@ -6,6 +6,7 @@ import numpy as np
 
 def main():
     print(123)
+    out = cv2.VideoWriter('outpy.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (300, 500))
     dst = "./photos/"  # Images destination
     images = os.listdir(dst)  # Get their names in a list
     length = len(images)
@@ -34,32 +35,16 @@ def main():
         # Image Transition from one to another
         result = cv2.addWeighted(result, a, img, b, 0)
         cv2.imshow("Slide Show", result)
-        cv2.imwrite('1.mp4', result)
+        out.write(result)
+
         key = cv2.waitKey(1) & 0xff
         if key == ord('q'):
+            out.release()
             break
 
+    cv2.imwrite('1.mp4', result)
     cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
     main()
-'''
-import cv2
-import os
-
-image_folder = 'photos'
-video_name = 'video.avi'
-
-images = [img for img in os.listdir(image_folder) if img.endswith(".jpg")]
-print(images)
-frame = cv2.imread(os.path.join(image_folder, images[0]))
-height, width, layers = frame.shape
-
-video = cv2.VideoWriter(video_name, 0, 1, (width,height))
-
-for image in images:
-    video.write(cv2.imread(os.path.join(image_folder, image)))
-
-cv2.destroyAllWindows()
-video.release()
