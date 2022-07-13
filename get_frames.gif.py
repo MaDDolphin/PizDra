@@ -9,7 +9,7 @@ def create_image_with_text(size, text):
     img = Image.open("1.jpg")
     w, h = img.size
     draw = ImageDraw.Draw(img)
-    draw.text((0, 0), text, font=fnt, fill=('#ffffff')
+    draw.text((0, 0), text, font=fnt, fill='#ffffff')
     c += inc
     return img
 
