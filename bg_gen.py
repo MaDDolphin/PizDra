@@ -1,4 +1,4 @@
-import os
+'''import os
 from math import ceil
 import cv2
 import numpy as np
@@ -48,3 +48,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
+import cv2
+import string
+n=0
+aux=2
+img1 = cv2.imread('./hoto')
