@@ -6,7 +6,8 @@ import numpy as np
 
 def main():
     print(123)
-    out = cv2.VideoWriter('outpy.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (300, 500))
+    fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+    out = cv2.VideoWriter('test_output.avi',fourcc, 20.0, (640,480),0)
     dst = "./photos/"  # Images destination
     images = os.listdir(dst)  # Get their names in a list
     length = len(images)
