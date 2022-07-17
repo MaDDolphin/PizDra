@@ -14,9 +14,8 @@ def main():
 
     result = np.zeros((400, 400, 3), np.uint8)  # Image window of size (360, 360)
     i = 1
-
-    a = 1.0  # alpha
-    b = 0.0  # beta
+    a = 1.0
+    b = 0.0
     img = cv2.imread(dst + images[i])
     img = cv2.resize(img, (400, 400))
 
@@ -37,7 +36,7 @@ def main():
         result = cv2.addWeighted(result, a, img, b, 0)
         cv2.imshow("Slide Show", result)
         out.write(result)
-
+        out.release()
         key = cv2.waitKey(1) & 0xff
         if key == ord('q'):
             out.release()
