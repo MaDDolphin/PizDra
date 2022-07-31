@@ -1,49 +1,35 @@
 import os
-from math import ceil
+from os.path import isfile, join
+
 import cv2
-import numpy as np
+
+
+def convert_frames_to_video(pathIn, pathOut, fps):
+    frame_array = []
+    files = [f for f in os.listdir(pathIn) if isfile(join(pathIn, f))]
+    # for sorting the file names properly
+    files.sort(key=lambda x: int(x[5:-4]))
+    for i in range(len(files)):
+        filename = pathIn + files[i]
+        # reading each files
+        img = cv2.imread(filename)
+        height, width, layers = img.shape
+        size = (width, height)
+        print(filename)
+        # inserting the frames into an image array
+        frame_array.append(img)
+    out = cv2.VideoWriter(pathOut, cv2.VideoWriter_fourcc(*'XVID'), fps, size)
+    for i in range(len(frame_array)):
+        # writing to a image array
+        out.write(frame_array[i])
+    out.release()
 
 
 def main():
-    print(123)
-    fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
-    out = cv2.VideoWriter('test_output.avi',fourcc, 20.0, (640,480),0)
-    dst = "./photos/"  # Images destination
-    images = os.listdir(dst)  # Get their names in a list
-    length = len(images)
-
-    result = np.zeros((400, 400, 3), np.uint8)  # Image window of size (360, 360)
-    i = 1
-    a = 1.0
-    b = 0.0
-    img = cv2.imread(dst + images[i])
-    img = cv2.resize(img, (400, 400))
-
-    # Slide Show Loop
-    while True:
-
-        if ceil(a) == 0:
-            a = 1.0
-            b = 0.0
-            i = (i + 1) % length  # Getting new image from directory
-            img = cv2.imread(dst + images[i])
-            img = cv2.resize(img, (400, 400))
-
-        a -= 0.01
-        b += 0.01
-
-        # Image Transition from one to another
-        result = cv2.addWeighted(result, a, img, b, 0)
-        cv2.imshow("Slide Show", result)
-        out.write(result)
-        out.release()
-        key = cv2.waitKey(1) & 0xff
-        if key == ord('q'):
-            out.release()
-            break
-
-    cv2.imwrite('1.mp4', result)
-    cv2.destroyAllWindows()
+    pathIn = './small/'
+    pathOut = 'video.avi'
+    fps = 0.5
+    convert_frames_to_video(pathIn, pathOut, fps)
 
 
 if __name__ == "__main__":
