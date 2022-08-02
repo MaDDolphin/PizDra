@@ -16,7 +16,7 @@ def read_file(filename):
 def html_req(tags):
     i = 1
     for tag in tags:
-        for page_nmb in range(1, 18):
+        for page_nmb in range(1, 602):
             print(page_nmb)
             url = 'https://wallpaperscraft.ru/tag/'+tag+'/1080x1920/page%d#' % page_nmb
             r = requests.get(url)
@@ -33,12 +33,12 @@ def photo_parse(filename, links):
         photos = photo_list.find_all('li', {'class': 'wallpapers__item'})
         i = 0
         for photo in photos:
-            while os.path.exists('./bg/frame' + str(i) + '.jpg'):
+            while os.path.exists('./bg/' + str(i) + '.jpg'):
                 i = i+1
             link = photo.find('img', {'class': 'wallpapers__image'}).get('src').replace('168x300', '480x854')
             print(link)
             img_data = requests.get(link).content
-            with open('./bg/frame'+str(i)+'.jpg', 'wb') as handler:
+            with open('./bg/'+str(i)+'.jpg', 'wb') as handler:
                 handler.write(img_data)
 
             links.append(link)
@@ -50,7 +50,7 @@ def photo_parse(filename, links):
 
 
 def main():
-    tags = ["завтрак", "радость"]
+    tags = ["макро"]
     folder = './pages'
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)

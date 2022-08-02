@@ -27,7 +27,7 @@ def convert_frames_to_video(pathIn, pathOut, fps):
 
 
 def main():
-    pathIn = './bg/'
+    pathIn = './scrap_data/bg/'
     pathOut = 'video.avi'
     fps = 25
     convert_frames_to_video(pathIn, pathOut, fps)
