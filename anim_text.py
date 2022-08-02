@@ -1,5 +1,5 @@
 import random
-
+import cv2
 from PIL import Image, ImageDraw, ImageFont
 
 frames = []
@@ -31,38 +31,41 @@ def get_color():
 
 
 def create_image_with_text(size, text, fnt, color):
-    img = Image.new('RGB', (600, 50), color[0])
+    '''img = Image.open("1.jpg")
+    draw = ImageDraw.Draw(img)
+    img = Image.new('RGB', (650, 50), color[0])
     draw = ImageDraw.Draw(img)
     draw.fontmode = "1"
-    draw.text((size[0], size[1]), text, font=fnt, fill=color[1])
+
+    draw.text((size[0], size[1]), text, font=fnt, fill=color[1])'''
+    global c, inc
+    img = Image.open("1.jpg")
+    draw = ImageDraw.Draw(img)
+    draw.text((0, 0), text, font=fnt, fill=color[1])
+    c += inc
     return img
 
 
 def roll(text, fnt, color):
     for i in range(len(text) + 1):
         new_frame = create_image_with_text((0, 0), text[:i], fnt, color)
+        print(text[:i])
         frames.append(new_frame)
 
 
 def gif_text():
     color = get_color()
     text = """ С добрым утром, улыбайся,
-    Пусть удачным будет день!
-    Каждым мигом наслаждайся,
-    Пусть уйдет печали тень!
-
-    Солнце пусть тебя согреет,
-    Кофеек пускай взбодрит,
-    Сердце пусть от счастья млеет,
-    А в душе лишь мир царит!
+Пусть удачным будет день!
     """
     # <<< ========== Customize font and text below ============== >>>>
-    fnt = ImageFont.truetype("impact", 36)
+    fnt = ImageFont.truetype("./21045.ttf", 80)
     all_text = text.splitlines()
     [roll(text, fnt, color) for text in all_text]
     # <<< ======================================================== >>>
     frames[0].save('banner.gif', format='GIF',
-                   append_images=frames[1:], save_all=True, duration=80, loop=0)
+                   append_images=frames[1:], save_all=True, duration=80)
+
 
 
 gif_text()

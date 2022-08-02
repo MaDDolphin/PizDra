@@ -5,6 +5,7 @@ inc = 10
 
 
 def create_image_with_text(text):
+    print(text)
     global c, inc
     img = Image.open("1.jpg")
     draw = ImageDraw.Draw(img)
@@ -40,3 +41,4 @@ all_text = """ С добрым утром, улыбайся,
 frames[0].save('banner_c.gif', format='GIF',
                append_images=frames[1:], save_all=True, duration=80, loop=0)
 print("Done")
+

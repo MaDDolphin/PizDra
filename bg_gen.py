@@ -1,8 +1,6 @@
 import os
 from os.path import isfile, join
-
 import cv2
-
 
 
 def convert_frames_to_video(pathIn, pathOut, fps):
@@ -18,7 +16,9 @@ def convert_frames_to_video(pathIn, pathOut, fps):
         size = (width, height)
         print(filename)
         # inserting the frames into an image array
-        frame_array.append(img)
+        for i in range(0, 25):
+            frame_array.append(img)
+            i = i+1
     out = cv2.VideoWriter(pathOut, cv2.VideoWriter_fourcc(*'XVID'), fps, size)
     for i in range(len(frame_array)):
         # writing to a image array
@@ -27,9 +27,9 @@ def convert_frames_to_video(pathIn, pathOut, fps):
 
 
 def main():
-    pathIn = './small/'
+    pathIn = './bg/'
     pathOut = 'video.avi'
-    fps = 0.5
+    fps = 25
     convert_frames_to_video(pathIn, pathOut, fps)
 
 
