@@ -143,7 +143,6 @@ pages/3.html
 *.jpg
 video.avi
 *.avi
-audiocut/
 *.mp3
 *.mp3
 *.xml
