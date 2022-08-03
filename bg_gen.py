@@ -11,7 +11,15 @@ def convert_frames_to_video(pathIn, pathOut, fps):
     for i in range(len(files)):
         filename = pathIn + files[i]
         # reading each files
+        font = cv2.FONT_HERSHEY_COMPLEX
         img = cv2.imread(filename)
+        cv2.putText(img,
+                    'ass',
+                    (10, 50),
+                    font, 0.8,
+                    (0,0,150),
+                    2,
+                    cv2.LINE_4)
         height, width, layers = img.shape
         size = (width, height)
         print(filename)
