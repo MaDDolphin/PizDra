@@ -5,6 +5,7 @@ import shutil
 import requests
 from bs4 import BeautifulSoup
 import os
+import json
 
 
 def read_file(filename):
@@ -25,35 +26,37 @@ def html_req():
 
 
 
-def photo_parse(filename, links):
-    try:
-        text = read_file(filename)
-        soup = BeautifulSoup(text)
-        photo_list = soup.find('div', {'class': 'content'})
-        photos = photo_list.find_all('p', {'class': 'sfst'})
-        i = 0
-        for photo in photos:
-            photo=str(photo)
-            a = photo.find('">')
-            print(a)
-            b = photo.rfind('<')
-            photo = photo[a+2:b]
-            print(photo)
-            photo.replace('<br/>', ' ')
-            print(photo)
-            '''
-            while os.path.exists('./bg/' + str(i) + '.jpg'):
-                i = i+1
-            link = photo.find('img', {'class': 'wallpapers__image'}).get('src').replace('168x300', '480x854')
-            print(link)
-            img_data = requests.get(link).content
-            with open('./bg/'+str(i)+'.jpg', 'wb') as handler:
-                handler.write(img_data)
+def photo_parse(filename, i, dick):
+    text = read_file(filename)
+    soup = BeautifulSoup(text)
+    photo_list = soup.find('div', {'class': 'content'})
+    photos = photo_list.find_all('p', {'class': 'sfst'})
 
-            links.append(link)    '''
-    except:
-        print(filename)
+    for photo in photos:
+        photo = str(photo)
+        while True:
+            a = photo.find('>')
+            b = photo.find('<')
+            photo = photo.replace(photo[b:a + 1], '')
 
+            if a == -1:
+                break
+
+        photo = photo.replace('<br/>', '')
+        dick[len(dick)] = photo
+        print(photo)
+        print(len(dick))
+
+        '''
+        while os.path.exists('./bg/' + str(i) + '.jpg'):
+            i = i+1
+        link = photo.find('img', {'class': 'wallpapers__image'}).get('src').replace('168x300', '480x854')
+        print(link)
+        img_data = requests.get(link).content
+        with open('./bg/'+str(i)+'.jpg', 'wb') as handler:
+            handler.write(img_data)
+
+        links.append(link)    '''
 
 
 
@@ -73,10 +76,14 @@ def main():
             print('Failed to delete %s. Reason: %s' % (file_path, e))
     html_req()'''
     links = []
-
+    dick = {}
+    j = 0
     for root, dirs, files in os.walk('./pages'):
         for file in files:
-            photo_parse('./pages/' + file, links)
+            photo_parse('./pages/' + file, j, dick)
+    with open('text.json', 'w') as fp:
+        json.dump(dick, fp)
+
 
 if __name__ == "__main__":
     main()
