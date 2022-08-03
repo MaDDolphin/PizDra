@@ -1,10 +1,7 @@
-from typing import Dict, Any
-import json
 import shutil
 import requests
 from bs4 import BeautifulSoup
 import os
-import datetime
 
 
 def read_file(filename):
